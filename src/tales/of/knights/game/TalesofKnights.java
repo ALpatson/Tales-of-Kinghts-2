@@ -589,16 +589,5 @@ public class TalesofKnights {
         }
     }
     
-    /**
-     * Main method
-     * @param args command line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            TalesofKnights game = new TalesofKnights();
-            game.startGame();
-        } catch (Exception e) {
-            System.out.println("Fatal error: " + e.getMessage());
-        }
-    }
+    
 }
