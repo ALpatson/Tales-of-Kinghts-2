@@ -9,19 +9,31 @@ import tales.of.knights.items.ItemBag;
 import tales.of.knights.interfaces.Consumable;
 
 /**
- * Hero class - the main player character
- * Extends Fighter with inventory management
+ * Hero Class - The Player Character
+ * 
+ * Extends Fighter with inventory management and player-specific abilities.
+ * The Hero is the player-controlled character that participates in combat,
+ * collects items, and progresses through the game.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Fighter
+ * @see ItemBag
+ * @see Consumable
  */
 public class Hero extends Fighter {
     
+    /** Inventory that stores items the hero collects */
     private ItemBag itemBag;
     
     /**
-     * Constructor for Hero
-     * @param name hero name
-     * @param title hero title
-     * @param health starting health
-     * @param power starting power
+     * Creates a new Hero character
+     * 
+     * @param name the hero's name
+     * @param title the hero's title/class
+     * @param health starting health points
+     * @param power starting attack power
      */
     public Hero(String name, String title, int health, int power) {
         super(name, title, health, power);
@@ -34,8 +46,9 @@ public class Hero extends Fighter {
     }
     
     /**
-     * Get the item bag
-     * @return item bag
+     * Gets the hero's inventory
+     * 
+     * @return the ItemBag containing all collected items
      */
     public ItemBag getItemBag() {
         try {
@@ -50,8 +63,12 @@ public class Hero extends Fighter {
     }
     
     /**
-     * Use an item from inventory
-     * @param index item index
+     * Uses a consumable item from inventory
+     * 
+     * Removes the item from inventory after use. Only works with Consumable items
+     * like healing potions or damage boosters.
+     * 
+     * @param index the position of the item in inventory
      */
     public void useItem(int index) {
         try {
@@ -88,8 +105,12 @@ public class Hero extends Fighter {
     }
     
     /**
-     * Buy an item
-     * @param item item to buy
+     * Purchases an item and adds it to inventory
+     * 
+     * Deducts gold from hero's money and adds item to inventory.
+     * Fails if hero doesn't have enough gold.
+     * 
+     * @param item the item to purchase - must not be null
      */
     public void buy(Item item) {
         try {
@@ -119,8 +140,11 @@ public class Hero extends Fighter {
     }
     
     /**
-     * Sell an item
-     * @param index item index
+     * Sells an item from inventory
+     * 
+     * Removes item from inventory and adds gold to hero's money.
+     * 
+     * @param index the position of the item to sell in inventory
      */
     public void sell(int index) {
         try {
@@ -159,8 +183,12 @@ public class Hero extends Fighter {
     }
     
     /**
-     * Escape from battle
-     * @return true if escape successful
+     * Attempts to escape from battle
+     * 
+     * 30% chance of successful escape. If successful, hero avoids combat.
+     * If failed, hero stays in battle.
+     * 
+     * @return true if escape was successful, false if failed
      */
     public boolean escape() {
         try {
@@ -181,7 +209,10 @@ public class Hero extends Fighter {
     }
     
     /**
-     * Rest and recover health
+     * Rests at an inn to recover health
+     * 
+     * Recovers 50 health points (capped at maximum health).
+     * Used when hero needs healing between battles.
      */
     public void rest() {
         try {
@@ -199,4 +230,3 @@ public class Hero extends Fighter {
         }
     }
 }
-   

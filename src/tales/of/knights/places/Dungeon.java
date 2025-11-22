@@ -5,16 +5,31 @@
 package tales.of.knights.places;
 
 /**
- * Dungeon class - represents the dungeon location
- * Extends Place
+ * Dungeon Class - Dangerous Combat Location with Multiple Levels
+ * 
+ * Extends Place to represent a dungeon with 5 progressively harder levels.
+ * Each level contains a Room with enemies. Players progress through levels
+ * by defeating enemies and advancing.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Place
+ * @see Room
+ * @see Town
  */
 public class Dungeon extends Place {
     
+    /** The current room/chamber the player is in */
     private Room currentRoom;
+    
+    /** Current dungeon level (1-5, capped at 5) */
     private int currentLevel;
     
     /**
-     * Constructor for Dungeon
+     * Creates a new Dungeon
+     * 
+     * Initializes dungeon starting at level 1 with the first room.
      */
     public Dungeon() {
         super("Dungeon", "A dark and dangerous dungeon");
@@ -29,8 +44,9 @@ public class Dungeon extends Place {
     }
     
     /**
-     * Get current room
-     * @return current room
+     * Gets the current room the player is in
+     * 
+     * @return the current Room object with enemies for this level
      */
     public Room getCurrentRoom() {
         try {
@@ -45,7 +61,10 @@ public class Dungeon extends Place {
     }
     
     /**
-     * Move to next room
+     * Advances to the next dungeon level
+     * 
+     * Increases current level by 1 (capped at level 5).
+     * Creates a new room with increased difficulty.
      */
     public void nextRoom() {
         try {
@@ -60,8 +79,9 @@ public class Dungeon extends Place {
     }
     
     /**
-     * Get current level
-     * @return level
+     * Gets the current dungeon level
+     * 
+     * @return the current level (1-5)
      */
     public int getCurrentLevel() {
         try {
@@ -73,7 +93,9 @@ public class Dungeon extends Place {
     }
     
     /**
-     * Display the dungeon
+     * Displays the dungeon and current level information
+     * 
+     * Shows dungeon name, description, and current chamber/level.
      */
     @Override
     public void display() {

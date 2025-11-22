@@ -3,20 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tales.of.knights.characters;
-
 import java.util.Random;
 
 /**
- * Gambler class - offers gambling games
- * Extends Villager
+ * Gambler NPC - Offers gambling games to the player
+ * 
+ * Extends Villager to provide gambling services. Players can bet gold for a 50/50
+ * chance to double their money and gain fame, or lose their bet.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Villager
+ * @see Hero
  */
 public class Gambler extends Villager {
     
+    /** Random number generator for 50/50 gambling odds */
     private Random random;
     
     /**
-     * Constructor for Gambler
-     * @param name gambler name
+     * Creates a new Gambler NPC
+     * 
+     * @param name the gambler's name
      */
     public Gambler(String name) {
         super(name, "Gambler", "Gambler");
@@ -29,10 +38,16 @@ public class Gambler extends Villager {
     }
     
     /**
-     * Play a gamble with the hero
-     * @param hero the player
-     * @param bet amount to bet
-     * @return true if hero wins
+     * Play a gambling game with the hero
+     * 
+     * 50/50 chance to win. If hero wins, receives bet * 2 gold and 5 fame.
+     * If hero loses, loses the bet. Validates hero has enough money before betting.
+     * 
+     * @param hero the player - must not be null
+     * @param bet amount of gold to wager - must be positive and available
+     * @return true if hero won the gamble, false if lost or error occurred
+     * 
+     * @see #displayGamblingOptions()
      */
     public boolean gamble(Hero hero, int bet) {
         try {
@@ -79,7 +94,11 @@ public class Gambler extends Villager {
     }
     
     /**
-     * Display gambling options
+     * Displays available gambling betting options to the player
+     * 
+     * Shows welcome message and betting amounts (10, 50, 100 gold).
+     * 
+     * @see #gamble(Hero, int)
      */
     public void displayGamblingOptions() {
         try {

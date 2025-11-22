@@ -5,17 +5,36 @@
 package tales.of.knights.places;
 
 /**
- * Abstract Place class - represents locations in the game
+ * Place Abstract Class - Base for All Game Locations
+ * 
+ * Abstract base class representing locations/areas in the game. All places have
+ * a name and description. Concrete location types (Town, Dungeon) extend this class.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * @abstract Cannot instantiate directly - extend with concrete location classes
+ * 
+ * @see Town
+ * @see Dungeon
+ * @see Room
  */
 public abstract class Place {
     
+    /** The location's name (e.g., "Town", "Dungeon") */
     protected String name;
+    
+    /** The location's description and atmosphere */
     protected String description;
     
     /**
-     * Constructor for Place
-     * @param name place name
-     * @param description place description
+     * Creates a new Place
+     * 
+     * All places must have a name and description. Both cannot be empty.
+     * 
+     * @param name the place's name - must not be null or empty
+     * @param description the place's description - must not be null or empty
+     * 
+     * @throws IllegalArgumentException if name or description is empty
      */
     public Place(String name, String description) {
         try {
@@ -36,8 +55,9 @@ public abstract class Place {
     }
     
     /**
-     * Get place name
-     * @return name
+     * Gets the place's name
+     * 
+     * @return the location's name
      */
     public String getName() {
         try {
@@ -49,8 +69,9 @@ public abstract class Place {
     }
     
     /**
-     * Get place description
-     * @return description
+     * Gets the place's description
+     * 
+     * @return the location's description and atmosphere
      */
     public String getDescription() {
         try {
@@ -62,7 +83,9 @@ public abstract class Place {
     }
     
     /**
-     * Display the place
+     * Abstract method for displaying place information
+     * 
+     * Subclasses must implement this to show location details.
      */
     public abstract void display();
 }

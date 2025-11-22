@@ -8,15 +8,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ItemBag class - manages inventory of items
+ * ItemBag Class - Inventory Management System
+ * 
+ * Manages a collection of items that a character carries. Has a maximum
+ * capacity of 8 items. Supports adding, removing, and retrieving items.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Item
+ * @see Hero
+ * @see Shopkeeper
  */
 public class ItemBag {
     
+    /** List of items in the bag */
     private List<Item> items;
+    
+    /** Maximum capacity - bag can hold up to 8 items */
     private static final int MAX_ITEMS = 8;
     
     /**
-     * Constructor for ItemBag
+     * Creates a new empty ItemBag
+     * 
+     * Initializes an empty inventory ready to store items.
      */
     public ItemBag() {
         try {
@@ -28,9 +43,12 @@ public class ItemBag {
     }
     
     /**
-     * Add an item to the bag
-     * @param item item to add
-     * @return true if successful
+     * Adds an item to the bag
+     * 
+     * Fails if bag is full (max 8 items) or item is null.
+     * 
+     * @param item the item to add - must not be null
+     * @return true if item was successfully added, false if bag is full or error
      */
     public boolean addItem(Item item) {
         try {
@@ -61,9 +79,10 @@ public class ItemBag {
     }
     
     /**
-     * Get an item from the bag
-     * @param index item index
-     * @return item or null
+     * Gets an item from the bag by index
+     * 
+     * @param index the position of the item (0-7)
+     * @return the Item at that index, or null if invalid index
      */
     public Item getItem(int index) {
         try {
@@ -88,9 +107,10 @@ public class ItemBag {
     }
     
     /**
-     * Remove an item from the bag
-     * @param index item index
-     * @return true if successful
+     * Removes an item from the bag by index
+     * 
+     * @param index the position of the item to remove
+     * @return true if item was successfully removed, false if invalid index
      */
     public boolean removeItem(int index) {
         try {
@@ -120,8 +140,9 @@ public class ItemBag {
     }
     
     /**
-     * Get the number of items in the bag
-     * @return item count
+     * Gets the number of items currently in the bag
+     * 
+     * @return the count of items (0-8)
      */
     public int getItemCount() {
         try {
@@ -136,7 +157,9 @@ public class ItemBag {
     }
     
     /**
-     * Display all items in the bag
+     * Displays all items in the inventory
+     * 
+     * Shows a formatted list of all items with their positions.
      */
     public void displayInventory() {
         try {
@@ -159,7 +182,9 @@ public class ItemBag {
     }
     
     /**
-     * Clear all items from the bag
+     * Clears all items from the bag
+     * 
+     * Removes every item, leaving the bag empty.
      */
     public void clear() {
         try {

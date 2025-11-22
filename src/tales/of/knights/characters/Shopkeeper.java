@@ -7,16 +7,30 @@ package tales.of.knights.characters;
 import tales.of.knights.items.*;
 
 /**
- * Shopkeeper class - sells items to the player
- * Extends Villager
+ * Shopkeeper Class - Merchant NPC
+ * 
+ * Extends Villager to provide shopping services. The shopkeeper manages a shop
+ * inventory and sells items to the hero. Each item type has different variants.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Villager
+ * @see Hero
+ * @see ItemBag
  */
 public class Shopkeeper extends Villager {
     
+    /** Shop inventory containing items for sale */
     private ItemBag shop;
     
     /**
-     * Constructor for Shopkeeper
-     * @param name shopkeeper name
+     * Creates a new Shopkeeper NPC
+     * 
+     * Initializes a shopkeeper with starting inventory of weapons, armor,
+     * healing items, and damage items.
+     * 
+     * @param name the shopkeeper's name
      */
     public Shopkeeper(String name) {
         super(name, "Merchant", "Shopkeeper");
@@ -30,7 +44,9 @@ public class Shopkeeper extends Villager {
     }
     
     /**
-     * Initialize the shop with starting items
+     * Initializes shop with starting items
+     * 
+     * Adds weapons, armor, healing items, and damage items to shop inventory.
      */
     private void initializeShop() {
         try {
@@ -47,7 +63,9 @@ public class Shopkeeper extends Villager {
     }
     
     /**
-     * Display shop items
+     * Displays shop menu and available categories
+     * 
+     * Shows options to buy weapons, armor, potions, or damage items.
      */
     public void displayShop() {
         try {
@@ -66,9 +84,12 @@ public class Shopkeeper extends Villager {
     }
     
     /**
-     * Get an item from the shop
-     * @param index item index
-     * @return item or null
+     * Gets an item from the shop inventory
+     * 
+     * Returns the item at the specified index, or null if not found.
+     * 
+     * @param index the position of the item in shop inventory
+     * @return the Item at that index, or null if invalid index
      */
     public Item getShopItem(int index) {
         try {
@@ -93,9 +114,13 @@ public class Shopkeeper extends Villager {
     }
     
     /**
-     * Sell item to player
-     * @param hero the player
-     * @param itemType type of item to sell
+     * Sells an item to the hero
+     * 
+     * Creates an item based on type and sells it to the hero if they have
+     * enough gold. Item types: "weapon", "armor", "healing", "damage".
+     * 
+     * @param hero the player making the purchase
+     * @param itemType the type of item to sell ("weapon", "armor", etc.)
      */
     public void sellItem(Hero hero, String itemType) {
         try {

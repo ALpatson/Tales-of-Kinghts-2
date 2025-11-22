@@ -5,18 +5,31 @@
 package tales.of.knights.items;
 
 /**
- * Weapon class - represents weapons that increase damage
- * Extends Item
+ * Weapon Class - Offensive Equipment Item
+ * 
+ * Extends Item to represent weapons that increase attack damage when equipped.
+ * Each weapon has a damage value that is added to attacks in combat.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Item
+ * @see Armor
+ * @see tales.of.knights.characters.Fighter
  */
 public class Weapon extends Item {
     
+    /** Damage value - how much damage this weapon adds to attacks */
     private int damage;
     
     /**
-     * Constructor for Weapon
-     * @param description weapon description
-     * @param damage damage value
-     * @param value value in gold
+     * Creates a new Weapon item
+     * 
+     * @param description the weapon's name/description
+     * @param damage how much damage this weapon deals (must be non-negative)
+     * @param value the weapon's price in gold
+     * 
+     * @throws IllegalArgumentException if damage is negative
      */
     public Weapon(String description, int damage, int value) {
         super(description, value);
@@ -33,8 +46,9 @@ public class Weapon extends Item {
     }
     
     /**
-     * Get weapon damage
-     * @return damage value
+     * Gets the weapon's damage value
+     * 
+     * @return how much damage this weapon adds to attacks
      */
     public int getDamage() {
         try {
@@ -46,7 +60,9 @@ public class Weapon extends Item {
     }
     
     /**
-     * Display weapon info
+     * Displays weapon information
+     * 
+     * Shows description, damage value, and gold price.
      */
     @Override
     public void display() {

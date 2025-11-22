@@ -5,18 +5,31 @@
 package tales.of.knights.items;
 
 /**
- * Armor class - represents armor that reduces damage
- * Extends Item
+ * Armor Class - Protective Equipment Item
+ * 
+ * Extends Item to represent armor that reduces incoming damage when equipped.
+ * Each armor has a protection value that decreases damage taken in combat.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Item
+ * @see Weapon
+ * @see tales.of.knights.characters.Fighter
  */
 public class Armor extends Item {
     
+    /** Protection value - how much damage this armor reduces */
     private int protection;
     
     /**
-     * Constructor for Armor
-     * @param description armor description
-     * @param protection protection value
-     * @param value value in gold
+     * Creates a new Armor item
+     * 
+     * @param description the armor's name/description
+     * @param protection how much damage this armor blocks (must be non-negative)
+     * @param value the armor's price in gold
+     * 
+     * @throws IllegalArgumentException if protection is negative
      */
     public Armor(String description, int protection, int value) {
         super(description, value);
@@ -33,8 +46,9 @@ public class Armor extends Item {
     }
     
     /**
-     * Get armor protection value
-     * @return protection value
+     * Gets the armor's protection value
+     * 
+     * @return how much damage this armor reduces when equipped
      */
     public int getProtection() {
         try {
@@ -46,7 +60,9 @@ public class Armor extends Item {
     }
     
     /**
-     * Display armor info
+     * Displays armor information
+     * 
+     * Shows description, protection value, and gold price.
      */
     @Override
     public void display() {

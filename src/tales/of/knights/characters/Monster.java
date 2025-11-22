@@ -3,24 +3,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tales.of.knights.characters;
-
 import java.util.Random;
 
 /**
- * Monster class - represents enemy characters
- * Extends Fighter for combat abilities
+ * Monster Class - Enemy Character
+ * 
+ * Extends Fighter to represent enemies in the dungeon. Each monster has a challenge
+ * level that determines difficulty, and rewards gold/fame based on difficulty.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Fighter
+ * @see Hero
  */
 public class Monster extends Fighter {
     
-    private int challenge; // Difficulty level
+    /** Difficulty level (1-5) - affects rewards and damage variation */
+    private int challenge;
+    
+    /** Random number generator for damage variation */
     private Random random;
     
     /**
-     * Constructor for Monster
-     * @param name monster name
-     * @param health monster health
-     * @param power monster power
-     * @param challenge difficulty level
+     * Creates a new Monster enemy
+     * 
+     * Initializes monster with name, health, power, and challenge level.
+     * Rewards (gold and fame) are calculated based on challenge level.
+     * Challenge level must be positive (typically 1-5).
+     * 
+     * @param name the monster's name
+     * @param health the monster's health points
+     * @param power the monster's attack power
+     * @param challenge the difficulty level (must be > 0)
+     * 
+     * @throws IllegalArgumentException if challenge level is not positive
      */
     public Monster(String name, int health, int power, int challenge) {
         super(name, "Monster", health, power);
@@ -41,8 +58,12 @@ public class Monster extends Fighter {
     }
     
     /**
-     * Attack with randomized damage
-     * @return damage dealt
+     * Attacks with randomized damage variation
+     * 
+     * Damage varies between (power - 3) and (power + 3) for unpredictability.
+     * Minimum damage is always 1.
+     * 
+     * @return the damage dealt by this attack
      */
     @Override
     public int attack() {
@@ -69,8 +90,12 @@ public class Monster extends Fighter {
     }
     
     /**
-     * Get challenge level
-     * @return challenge level
+     * Gets the monster's challenge level
+     * 
+     * Challenge level determines difficulty and rewards.
+     * Levels 1-5: Easy to Extreme difficulty.
+     * 
+     * @return the challenge level (1-5 or higher)
      */
     public int getChallenge() {
         try {
@@ -82,9 +107,69 @@ public class Monster extends Fighter {
     }
     
     /**
-     * Display monster stats
+     * Sets the maximum health for this monster
+     * 
+     * Used for scaling monsters in New Game+ mode.
+     * 
+     * @param maxHealth the new maximum health value
      */
-    public void displayStats() {
+    public void setMaxHealth(int maxHealth) {
+        try {
+            if (maxHealth < 1) {
+                maxHealth = 1;
+            }
+            this.maxHealth = maxHealth;
+        } catch (Exception e) {
+            System.out.println("Error setting max health: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Sets the current health for this monster
+     * 
+     * Used for scaling and resetting monsters.
+     * 
+     * @param health the new health value
+     */
+    public void setHealth(int health) {
+        try {
+            if (health < 0) {
+                health = 0;
+            }
+            if (health > this.maxHealth) {
+                health = this.maxHealth;
+            }
+            this.health = health;
+        } catch (Exception e) {
+            System.out.println("Error setting health: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Sets the power/damage for this monster
+     * 
+     * Used for scaling monsters in New Game+ mode.
+     * 
+     * @param power the new attack power value
+     */
+    public void setPower(int power) {
+        try {
+            if (power < 1) {
+                power = 1;
+            }
+            this.power = power;
+        } catch (Exception e) {
+            System.out.println("Error setting power: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Display the monster's combat statistics
+     * 
+     * Shows name, health, power, and challenge level.
+     * Called when player encounters a monster.
+     */
+    public void display() {
         try {
             System.out.println("\n========== MONSTER STATS ==========");
             System.out.println("Name: " + this.name);

@@ -15,20 +15,47 @@ import tales.of.knights.places.Room;
 import tales.of.knights.items.*;
 
 /**
- * Main game class for Tales of Knights
- * Controls game flow and user interactions
+ * TalesofKnights Main Game Controller
+ * 
+ * Main game class that manages the overall game flow, menus, and combat system.
+ * Handles player interaction, game state, and all major gameplay features including
+ * town exploration, dungeon combat, shopping, gambling, and inventory management.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Hero
+ * @see Monster
+ * @see Town
+ * @see Dungeon
  */
 public class TalesofKnights {
     
+    /** The player character controlled by the user */
     private Hero player;
+    
+    /** Scanner for handling user input from console */
     private Scanner scanner;
+    
+    /** The safe town location with shops and inn */
     private Town town;
+    
+    /** The dangerous dungeon with multiple combat levels */
     private Dungeon dungeon;
+    
+    /** Flag indicating if the game is currently running */
     private boolean gameRunning;
+    
+    /** Flag indicating if a battle is currently in progress */
     private boolean inBattle;
     
+    /** Flag indicating if we're in New Game+ mode (harder difficulty) */
+    private boolean isNewGamePlus;
+    
     /**
-     * Constructor for TalesofKnights
+     * Creates a new TalesofKnights game instance
+     * 
+     * Initializes the game world with scanner, town, dungeon, and game state flags.
      */
     public TalesofKnights() {
         try {
@@ -37,13 +64,17 @@ public class TalesofKnights {
             this.dungeon = new Dungeon();
             this.gameRunning = true;
             this.inBattle = false;
+            this.isNewGamePlus = false;
         } catch (Exception e) {
             System.out.println("Error initializing game: " + e.getMessage());
         }
     }
     
     /**
-     * Start the game
+     * Starts the game and creates the player character
+     * 
+     * Displays welcome screen, prompts for character name and title,
+     * creates the player, and begins the main game loop.
      */
     public void startGame() {
         try {
@@ -80,7 +111,10 @@ public class TalesofKnights {
     }
     
     /**
-     * Main game loop
+     * Main game loop that displays menu and handles player choices
+     * 
+     * Continues until player quits or dies. Offers options to visit town,
+     * enter dungeon, check status, view inventory, or quit.
      */
     private void gameLoop() {
         try {
@@ -135,7 +169,9 @@ public class TalesofKnights {
     }
     
     /**
-     * Town menu
+     * Town menu with options to shop, visit inn, rest, or leave
+     * 
+     * Provides access to town features including the shop and inn.
      */
     private void townMenu() {
         try {
@@ -189,7 +225,10 @@ public class TalesofKnights {
     }
     
     /**
-     * Shop menu
+     * Shop menu for buying and selling items
+     * 
+     * Allows purchasing weapons, armor, healing items, and damage items,
+     * plus selling items from inventory.
      */
     private void shopMenu() {
         try {
@@ -249,7 +288,9 @@ public class TalesofKnights {
     }
     
     /**
-     * Sell menu
+     * Sell menu for trading inventory items for gold
+     * 
+     * Displays inventory and allows player to select items to sell.
      */
     private void sellMenu() {
         try {
@@ -279,7 +320,9 @@ public class TalesofKnights {
     }
     
     /**
-     * Inn menu
+     * Inn menu with drinking and gambling options
+     * 
+     * Allows player to buy drinks for fame or gamble for gold.
      */
     private void innMenu() {
         try {
@@ -348,7 +391,10 @@ public class TalesofKnights {
     }
     
     /**
-     * Dungeon menu
+     * Dungeon menu to enter combat challenges
+     * 
+     * Allows player to enter dungeon chambers and engage in battles.
+     * Chamber 5 is the special final boss chamber.
      */
     private void dungeonMenu() {
         try {
@@ -361,8 +407,17 @@ public class TalesofKnights {
             
             while (inDungeon && this.player.isAlive()) {
                 try {
+                    int currentLevel = this.dungeon.getCurrentLevel();
+                    
                     System.out.println("\n========== ENTER DUNGEON ==========");
-                    System.out.println("1. Enter Chamber " + this.dungeon.getCurrentLevel());
+                    System.out.println("1. Enter Chamber " + currentLevel);
+                    
+                    // Chamber 5 is the final boss chamber
+                    if (currentLevel >= 5) {
+                        System.out.println("   ⚠️  WARNING: This is the FINAL CHAMBER!");
+                        System.out.println("   (The final boss awaits...)");
+                    }
+                    
                     System.out.println("2. Return to Town");
                     System.out.println("===================================\n");
                     
@@ -394,7 +449,42 @@ public class TalesofKnights {
     }
     
     /**
-     * Battle system
+     * Scales a monster's stats for New Game+ difficulty
+     * 
+     * In New Game+, monsters are SIGNIFICANTLY stronger:
+     * - Health is multiplied by 3
+     * - Power is multiplied by 2.5
+     * - They're actual threats instead of one-shot kills
+     * 
+     * @param enemy the Monster to scale
+     */
+    private void scaleMonsterForNewGamePlus(Monster enemy) {
+        try {
+            if (!this.isNewGamePlus || enemy == null) {
+                return;
+            }
+            
+            // Dramatically increase monster stats for challenge
+            int scaledHealth = (int)(enemy.getMaxHealth() * 3);      // 3x health
+            int scaledPower = (int)(enemy.getPower() * 2.5);         // 2.5x damage
+            
+            // Set new health and power
+            enemy.setMaxHealth(scaledHealth);
+            enemy.setHealth(scaledHealth);
+            enemy.setPower(scaledPower);
+            
+            System.out.println("\n⚠️  NEW GAME+ SCALING ACTIVATED!");
+            System.out.println("⚠️  This monster is SIGNIFICANTLY stronger!\n");
+        } catch (Exception e) {
+            System.out.println("Error scaling monster: " + e.getMessage());
+        }
+    }
+    /**
+     * Battle system with turn-based combat
+     * 
+     * Handles one-on-one combat between player and enemy. Provides options to
+     * attack, use items, analyze enemy, or escape. Continues until one side dies.
+     * In New Game+, monsters are scaled to be significantly stronger.
      */
     private void battle() {
         try {
@@ -415,10 +505,13 @@ public class TalesofKnights {
                 return;
             }
             
+            // Scale monster if we're in New Game+ mode
+            scaleMonsterForNewGamePlus(enemy);
+            
             this.inBattle = true;
             
             System.out.println("\n========== BATTLE START ==========");
-            enemy.displayStats();
+            enemy.display();
             
             while (this.inBattle && this.player.isAlive() && enemy.isAlive()) {
                 try {
@@ -493,8 +586,9 @@ public class TalesofKnights {
     }
     
     /**
-     * Perform player attack
-     * @param enemy enemy to attack
+     * Executes a player attack during battle
+     * 
+     * @param enemy the Monster being attacked
      */
     private void performAttack(Monster enemy) {
         try {
@@ -511,8 +605,9 @@ public class TalesofKnights {
     }
     
     /**
-     * Enemy attack
-     * @param enemy enemy attacking
+     * Executes an enemy attack during battle
+     * 
+     * @param enemy the Monster attacking
      */
     private void enemyAttack(Monster enemy) {
         try {
@@ -531,8 +626,13 @@ public class TalesofKnights {
     }
     
     /**
-     * End battle and handle rewards
-     * @param enemy defeated enemy
+     * Processes battle end - victory or defeat
+     * 
+     * If player wins, awards gold and fame.
+     * Chamber 5 is special - after winning, shows victory menu with options.
+     * If player loses, ends the game.
+     * 
+     * @param enemy the Monster that was fought
      */
     private void endBattle(Monster enemy) {
         try {
@@ -554,7 +654,15 @@ public class TalesofKnights {
                 System.out.println("You gained " + fameReward + " fame!");
                 System.out.println("=============================\n");
                 
-                this.dungeon.nextRoom();
+                // Check if we're in Chamber 5 (final chamber)
+                int currentLevel = this.dungeon.getCurrentLevel();
+                if (currentLevel >= 5) {
+                    // Chamber 5 victory - show special menu
+                    chamber5VictoryMenu();
+                } else {
+                    // Normal chambers advance to next level
+                    this.dungeon.nextRoom();
+                }
             } else if (!this.player.isAlive()) {
                 System.out.println("\n========== DEFEAT ==========");
                 System.out.println("You have been defeated!");
@@ -569,7 +677,101 @@ public class TalesofKnights {
     }
     
     /**
-     * End the game
+     * Special menu for Chamber 5 after VICTORY
+     * 
+     * After defeating the final boss, player can:
+     * - Replay Chamber 5 (fight the boss again)
+     * - Start New Game+ from Chamber 1 (keep all items, money, fame)
+     */
+    private void chamber5VictoryMenu() {
+        try {
+            if (this.player == null || this.dungeon == null) {
+                System.out.println("Error: Cannot access Chamber 5 victory menu!");
+                return;
+            }
+            
+            boolean inVictoryMenu = true;
+            
+            while (inVictoryMenu) {
+                try {
+                    System.out.println("\n╔═══════════════════════════════════════════╗");
+                    System.out.println("║     CONGRATULATIONS! YOU WON!             ║");
+                    System.out.println("║   You defeated the final boss!            ║");
+                    System.out.println("╚═══════════════════════════════════════════╝\n");
+                    
+                    System.out.println("What would you like to do?\n");
+                    System.out.println("1. Replay Chamber 5");
+                    System.out.println("   └─ Fight the final boss again!");
+                    System.out.println("   └─ Keep all your items, money, and fame");
+                    System.out.println("\n2. Start New Game+ from Chamber 1");
+                    System.out.println("   └─ Begin a new adventure!");
+                    System.out.println("   └─ Keep all your progress (items, money, fame)");
+                    System.out.println("   └─ The dungeon resets to Chamber 1");
+                    System.out.println("   └─ Monsters become stronger!\n");
+                    
+                    System.out.println("3. View Current Stats\n");
+                    
+                    System.out.print("Choose an option: ");
+                    String choice = scanner.nextLine();
+                    
+                    if (choice == null || choice.trim().isEmpty()) {
+                        System.out.println("Error: Please enter a valid option.\n");
+                        continue;
+                    }
+                    
+                    switch (choice.trim()) {
+                        case "1":
+                            // Replay Chamber 5 - boss respawns but player keeps everything
+                            System.out.println("\n✓ The final boss has risen again...");
+                            System.out.println("✓ All your progress is saved.\n");
+                            // Don't advance dungeon level, keep at 5
+                            inVictoryMenu = false;
+                            break;
+                            
+                        case "2":
+                            // Start New Game+ from Chamber 1 - reset dungeon but keep player stats
+                            System.out.println("\n✓ Starting New Game+...");
+                            System.out.println("✓ You keep all your items, money, and fame!");
+                            System.out.println("✓ The dungeon resets to Chamber 1.");
+                            System.out.println("✓ WARNING: Enemies are SIGNIFICANTLY stronger!");
+                            System.out.println("✓ This will be a TRUE CHALLENGE!\n");
+                            
+                            // Reset dungeon to Chamber 1
+                            this.dungeon = new Dungeon();
+                            
+                            // Mark that we're in New Game+ mode (harder difficulty)
+                            this.isNewGamePlus = true;
+                            
+                            System.out.println("✓ New Game+ started! Prepare for a real battle...\n");
+                            
+                            inVictoryMenu = false;
+                            return;
+                            
+                        case "3":
+                            // View stats
+                            if (this.player != null) {
+                                System.out.println();
+                                this.player.introduce();
+                            }
+                            break;
+                            
+                        default:
+                            System.out.println("Error: Invalid choice. Please enter 1-3.\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error in Chamber 5 victory menu: " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error accessing Chamber 5 victory menu: " + e.getMessage());
+        }
+    }
+    
+    
+    /**
+     * Ends the game and displays final stats
+     * 
+     * Shows game over screen with player's final statistics.
      */
     private void endGame() {
         try {
@@ -588,6 +790,4 @@ public class TalesofKnights {
             this.gameRunning = false;
         }
     }
-    
-    
 }

@@ -3,21 +3,38 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tales.of.knights.places;
-
 import tales.of.knights.characters.Monster;
 
 /**
- * Room class - represents a dungeon room
- * Extends Place
+ * Room Class - Dungeon Chamber with Enemy
+ * 
+ * Extends Place to represent a single dungeon chamber containing one enemy monster.
+ * Each room has a difficulty level (1-5) that determines the enemy's strength.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Place
+ * @see Dungeon
+ * @see Monster
  */
 public class Room extends Place {
     
+    /** The enemy monster in this room */
     private Monster monster;
+    
+    /** Difficulty level (1-5) - affects enemy strength and type */
     private int level;
     
     /**
-     * Constructor for Room
-     * @param level room level/difficulty
+     * Creates a new Room with an enemy
+     * 
+     * Generates a monster based on difficulty level. Higher levels spawn
+     * stronger enemies with more health and power.
+     * 
+     * @param level the room's difficulty (1-5)
+     * 
+     * @throws IllegalArgumentException if level is not positive
      */
     public Room(int level) {
         super("Dungeon Room", "A dark, damp dungeon chamber");
@@ -36,8 +53,12 @@ public class Room extends Place {
     }
     
     /**
-     * Create a monster for this room
-     * @param level room level
+     * Creates a monster appropriate for the room level
+     * 
+     * Spawns different monster types (Goblin, Orc, Troll, Dragon, Demon)
+     * based on level. Monster stats scale with difficulty.
+     * 
+     * @param level the difficulty level for the monster
      */
     private void createMonster(int level) {
         try {
@@ -59,8 +80,9 @@ public class Room extends Place {
     }
     
     /**
-     * Get the monster in this room
-     * @return monster
+     * Gets the enemy monster in this room
+     * 
+     * @return the Monster the player must defeat
      */
     public Monster getMonster() {
         try {
@@ -75,8 +97,9 @@ public class Room extends Place {
     }
     
     /**
-     * Get room level
-     * @return level
+     * Gets the room's difficulty level
+     * 
+     * @return the level (1-5)
      */
     public int getLevel() {
         try {
@@ -88,7 +111,9 @@ public class Room extends Place {
     }
     
     /**
-     * Display the room
+     * Displays the room and monster encounter
+     * 
+     * Shows room description and the enemy that appears.
      */
     @Override
     public void display() {

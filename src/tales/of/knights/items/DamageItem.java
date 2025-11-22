@@ -3,23 +3,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tales.of.knights.items;
-
 import tales.of.knights.characters.Character;
 import tales.of.knights.interfaces.Consumable;
 
 /**
- * DamageItem class - consumable items that increase damage
- * Extends Item, implements Consumable
+ * DamageItem Class - Consumable Damage Boost Item
+ * 
+ * Extends Item and implements Consumable. When used, temporarily increases
+ * a character's power/damage stat for their next attack.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Item
+ * @see Consumable
+ * @see HealingItem
  */
 public class DamageItem extends Item implements Consumable {
     
+    /** Power boost value - amount to increase character's power */
     private int power;
     
     /**
-     * Constructor for DamageItem
-     * @param description item description
-     * @param power power boost value
-     * @param value value in gold
+     * Creates a new DamageItem
+     * 
+     * @param description the item's name/description
+     * @param power the amount to boost damage (must be non-negative)
+     * @param value the item's price in gold
+     * 
+     * @throws IllegalArgumentException if power is negative
      */
     public DamageItem(String description, int power, int value) {
         super(description, value);
@@ -36,8 +48,9 @@ public class DamageItem extends Item implements Consumable {
     }
     
     /**
-     * Get power value
-     * @return power value
+     * Gets the power boost value
+     * 
+     * @return how much this item increases damage
      */
     public int getPower() {
         try {
@@ -49,8 +62,11 @@ public class DamageItem extends Item implements Consumable {
     }
     
     /**
-     * Use the damage item (increases character power)
-     * @param character character to boost
+     * Uses the damage item to boost character's power
+     * 
+     * Increases the character's attack power by this item's power value.
+     * 
+     * @param character the character to boost - must not be null
      */
     @Override
     public void use(Character character) {
@@ -73,8 +89,9 @@ public class DamageItem extends Item implements Consumable {
     }
     
     /**
-     * Get description
-     * @return description
+     * Gets the item's description including power value
+     * 
+     * @return description with power boost information
      */
     @Override
     public String getDescription() {
@@ -87,7 +104,9 @@ public class DamageItem extends Item implements Consumable {
     }
     
     /**
-     * Display damage item info
+     * Displays damage item information
+     * 
+     * Shows description, power boost, and gold price.
      */
     @Override
     public void display() {

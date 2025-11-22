@@ -3,19 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tales.of.knights.places;
-
 import tales.of.knights.characters.Shopkeeper;
 
 /**
- * Town class - represents the town location
- * Extends Place
+ * Town Class - Safe Hub Location with Shopkeeper
+ * 
+ * Extends Place to represent the main town where players can rest, buy/sell items,
+ * and interact with NPCs. The town is a safe haven from dungeon combat.
+ * 
+ * @author cobbina
+ * @version 1.0
+ * 
+ * @see Place
+ * @see Dungeon
+ * @see Shopkeeper
  */
 public class Town extends Place {
     
+    /** The town's shopkeeper who sells and buys items */
     private Shopkeeper shopkeeper;
     
     /**
-     * Constructor for Town
+     * Creates a new Town location
+     * 
+     * Initializes the town with a shopkeeper who manages the shop.
      */
     public Town() {
         super("Town", "A bustling town with shops and an inn");
@@ -28,8 +39,9 @@ public class Town extends Place {
     }
     
     /**
-     * Get the shopkeeper
-     * @return shopkeeper
+     * Gets the town's shopkeeper
+     * 
+     * @return the Shopkeeper NPC who runs the shop
      */
     public Shopkeeper getShopkeeper() {
         try {
@@ -44,7 +56,9 @@ public class Town extends Place {
     }
     
     /**
-     * Display the town
+     * Displays the town information
+     * 
+     * Shows town name and description to the player.
      */
     @Override
     public void display() {
